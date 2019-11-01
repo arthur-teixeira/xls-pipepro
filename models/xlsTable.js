@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const xlsTableSchema = new Schema({
+const XlsTableSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     required: true
@@ -13,4 +13,4 @@ const xlsTableSchema = new Schema({
   }
 });
 
-module.exports = mongoose.model("tabela", xlsTableSchema);
+module.exports = mongoose.model("tabela", XlsTableSchema);
