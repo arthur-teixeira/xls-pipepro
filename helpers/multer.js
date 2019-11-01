@@ -11,10 +11,8 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = function (req, file, cb) {
-	if (file.mimetype !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-		return cb(null, false);
-	else
-		return cb(null, true);
+	const isMimetype = file.mimetype === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	return cb(null, isMimetype);
 };
 
 const upload = multer({ fileFilter, storage });
