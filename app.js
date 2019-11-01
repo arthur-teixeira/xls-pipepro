@@ -14,22 +14,22 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 mongoose.connect(process.env.MONGO_URI, {
-   useNewUrlParser: true,
-   useCreateIndex: true,
-   useUnifiedTopology: true
+	useNewUrlParser: true,
+	useCreateIndex: true,
+	useUnifiedTopology: true
 })
-   .then(() => console.log("mongoDB conectado"))
-   .catch(err => console.log(err))
+	.then(() => console.log("mongoDB conectado"))
+	.catch(err => console.log(err));
 
 //rotas
-const uploadRoute = require("./routes/upload.routes")
-const authRoute = require("./routes/auth.routes")
+const uploadRoute = require("./routes/upload.routes");
+const authRoute = require("./routes/auth.routes");
 
-app.use("/api/auth", authRoute)
-app.use("/api/upload", uploadRoute)
+app.use("/api/auth", authRoute);
+app.use("/api/upload", uploadRoute);
 
 //error handler 
-app.use(errorHandler)
+app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log("servidor ligado na porta", PORT))
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("servidor ligado na porta", PORT));
