@@ -14,12 +14,12 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 mongoose.connect(process.env.MONGO_URI, {
-	useNewUrlParser: true,
-	useCreateIndex: true,
-	useUnifiedTopology: true
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
 })
-	.then(() => console.log("mongoDB conectado"))
-	.catch(err => console.log(err));
+  .then(() => console.log("mongoDB conectado"))
+  .catch(err => console.log(err));
 
 //rotas
 const uploadRoute = require("./routes/upload.routes");
