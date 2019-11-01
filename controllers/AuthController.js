@@ -24,16 +24,15 @@ class AuthController {
 		return user.save();
 	}
 
-	static async checkEmail(email) {
-		const user = await User.findOne({ email });
+	static async checkUser(user) {
 		if (!user) return this.wrongInput();
 	}
 
-	static checkPassword(password) {
+	static checkPassword(user, password) {
 		user.checkPassword(password, (err, same) => {
 			if (err) throw err;
 			if (!same) return this.wrongInput;
-			this.generateJWT(email, res);
+			return true;
 		});
 	}
 
@@ -50,9 +49,11 @@ class AuthController {
 
 	static async authenticate(req, res, next) {
 		const { email, password } = req.body;
+		const user = await User.findOne({ email });
 		try {
-			await this.checkEmail(email);
-			this.checkPassword(password);
+			await this.checkUser(user);
+			if (this.checkPassword(password))
+				return this.generateJWT(email, res);
 		} catch (err) {
 			next(err);
 		}

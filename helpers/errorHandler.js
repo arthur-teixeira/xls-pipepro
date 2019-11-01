@@ -2,7 +2,7 @@ const handler = (msg, status) => {
 	const error = new Error(msg);
 	error.statusCode = status;
 	throw error;
-}
+};
 
 
 module.exports = {
@@ -12,10 +12,10 @@ module.exports = {
 	notFoundError: msg => {
 		handler(msg, 404);
 	},
-	validationError = msg => {
+	validationError: msg => {
 		handler(msg, 401);
 	},
-	internalServerError = msg => {
+	internalServerError: msg => {
 		handler(msg, 500);
 	}
 };
