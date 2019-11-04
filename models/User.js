@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const brcypt = require("bcrypt");
+const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema(
   {
@@ -26,7 +26,7 @@ const saltRounds = 14;
 
 UserSchema.pre("save", function (next) {
   if (this.isNew || this.isModified("password")) {
-    brcypt.hash(this.password, saltRounds, (err, hashedPassword) => {
+    bcrypt.hash(this.password, saltRounds, (err, hashedPassword) => {
       if (err) return next(err);
 
       this.password = hashedPassword;
@@ -36,8 +36,8 @@ UserSchema.pre("save", function (next) {
 });
 
 UserSchema.methods.checkPassword = function (password, cb) {
-  brcypt.compare(password, this.password, (err, same) => {
-    if (err) cb(err);
+  bcrypt.compare(password, this.password, (err, same) => {
+    if (err) cb(err, null);
     else cb(null, same);
   });
 };
