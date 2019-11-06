@@ -13,12 +13,14 @@ app.use(morgan("tiny"));
 app.use(cookieParser());
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(`mongodb+srv://arthur:${process.env.MONGO_PASSWORD}@cluster0-j90rd.gcp.mongodb.net/test?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
 })
+  //eslint-disable-next-line no-console
   .then(() => console.log("mongoDB conectado"))
+  //eslint-disable-next-line no-console
   .catch(err => console.log(err));
 
 //rotas
@@ -32,4 +34,5 @@ app.use("/api/upload", uploadRoute);
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
+//eslint-disable-next-line no-console
 app.listen(PORT, () => console.log("servidor ligado na porta", PORT));

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const validationError = require("../helpers/errorHandler").validationError;
+
 const User = require("../models/User");
 
 class AuthService {
@@ -13,13 +13,13 @@ class AuthService {
   }
 
   get isLoggedIn() {
-    return this._currentUser ? true : false
+    return !!this._currentUser;
   }
 
   async saveUser() {
     const { name, email, password } = this._userData;
     const oldUser = await User.findOne({ email });
-    if (oldUser) return validationError("Usuário com este email já existente");
+    if (oldUser) throw new Error("Usuário com este email já existente");
 
     const user = new User({ name, email, password });
     this.newUser = user;
@@ -28,20 +28,14 @@ class AuthService {
 
 
   get user() {
-    return this._currentUser;
+    if (this.isLoggedIn) return this._currentUser;
+    else return null;
   }
-  // checkPassword(password) {
-  //   return this._currentUser.checkPassword(password, (err, same) => {
-  //     if (err) throw err;
-  //     // if (!same) throw new Error("Email e/ou senha incorretos");
-  //     console.log(same)
-  //   });
-  // }
 
-  async findUser() {
+  async loadUser() {
     const user = await User.findOne({ email: this._userData.email });
     if (user) this._currentUser = user;
-    else validationError("usuário inexistente");
+    else throw new Error("usuário inexistente");
   }
 
   generateJWT(res) {
