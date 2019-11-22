@@ -1,5 +1,5 @@
 const AuthService = require("../services/AuthService");
-const createErr = require("../helpers/errorHandler").errCreator;
+const createErr = require("../helpers/errorHandler").validationError;
 class AuthController {
 
   static async register(req, res, next) {
@@ -9,7 +9,7 @@ class AuthController {
       await UserService.saveUser();
       res.sendStatus(201);
     } catch (err) {
-      const newErr = createErr(err, 401);
+      const newErr = validationError(err);
       next(newErr);
     }
   }
@@ -21,7 +21,7 @@ class AuthController {
     UserService.user.checkPassword(password, (err, same) => {
       if (err) return next(err);
       if (!same) {
-        const err = createErr("Email e/ou senha incorretos.", 401);
+        const err = validationError("Email e/ou senha incorretos.");
         return next(err);
       }
       UserService.generateJWT(res);
@@ -29,9 +29,10 @@ class AuthController {
 
   }
 
-  // static checkToken(req, res) {
-  //   res.sendStatus(200);
-  // }
+  static checkToken(req, res) {
+    console.log(req.cookies);
+    res.sendStatus(200);
+  }
 }
 
 module.exports = AuthController;

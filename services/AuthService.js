@@ -39,7 +39,7 @@ class AuthService {
   }
 
   generateJWT(res) {
-    const token = jwt.sign({ email: this._currentUser.email }, process.env.SECRET, {
+    const token = jwt.sign({ id: this._currentUser._id }, process.env.SECRET, {
       expiresIn: "1h"
     });
     return res.cookie("token", token, { httpOnly: true }).sendStatus(200);
